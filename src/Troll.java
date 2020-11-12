@@ -1,3 +1,5 @@
+import java.util.function.Function;
+
 public class Troll extends GameO{
     Troll(){
         super();
@@ -8,6 +10,9 @@ public class Troll extends GameO{
     @Override
     GameO tickk() {
         return new Troll(this.state+1);
+    }
+    GameO tickk(Function<GameO,GameO> f){
+        return f.apply(this);
     }
 
     @Override

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 class Room{
@@ -18,11 +19,32 @@ class Room{
         this.name = name;
         this.gameOArrayList = gameOArrayList;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<GameO> getGameOArrayList() {
+        return gameOArrayList;
+    }
+    public boolean isSword(){
+        boolean isSword = false;
+        for(GameO gameO:this.gameOArrayList){
+            if(gameO instanceof Sword){
+                isSword = true;
+            }
+        }
+        return isSword;
+    }
     public Room add(GameO gameO){
         return new Room(this.name, this.gameOArrayList,gameO);
     }
     public Room tick(){
         return new Room(this.name, gameOArrayList.stream().map(x->x.tickk()).collect(Collectors.toList()));
+    }
+    public Room tick(Function<Room, Room> f){
+        Room roomAfterTick = this.tick();
+        return f.apply(roomAfterTick);
     }
     public String toString(){
         String name = "@"+this.name;
