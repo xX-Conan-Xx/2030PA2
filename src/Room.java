@@ -1,22 +1,30 @@
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 class Room{
     private final String name;
-    private final GameO g;
+    private final List<GameO> gameOArrayList;
     Room (String name){
         this.name = name;
-        this.g = null;
+        this.gameOArrayList = new ArrayList<GameO>();
     }
-    Room (String name,GameO g){
+    Room (String name, List<GameO> gameOArrayList, GameO gameO){
         this.name = name;
-        this.g =g;
+        gameOArrayList.add(gameO);
+        this.gameOArrayList = gameOArrayList;
     }
-    public Room add(GameO g){
-        return new Room(this.name,g);         
+    Room (String name, List<GameO> gameOArrayList){
+        this.name = name;
+        this.gameOArrayList = gameOArrayList;
+    }
+    public Room add(GameO gameO){
+        return new Room(this.name, this.gameOArrayList,gameO);
     }
     public Room tick(){
-        return new Room(this.name, g.tickk());
+        return new Room(this.name, gameOArrayList.stream().map(x->x.tickk()).collect(Collectors.toList()));
     }
     public String toString(){
-        return g.toString();
+        return gameOArrayList.toString();
     }
 }
