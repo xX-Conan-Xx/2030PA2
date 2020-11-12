@@ -10,17 +10,13 @@ class Candle extends GameO{
     }
     public String toString(){
         if(super.state == 0){
-            System.out.println("Candle flickers.");
-            return null;
+            return "Candle flickers.";
         }else if(super.state == 1){
-            System.out.println("Candle is getting shorter.");
-            return null;
+            return "Candle is getting shorter.";
         }else if(super.state == 2){
-            System.out.println("Candle is about to burn out.");
-            return null;
+            return "Candle is about to burn out.";
         }else{
-            System.out.println("Candle has burned out.");
-            return null;
+            return "Candle has burned out.";
         }
     }
 

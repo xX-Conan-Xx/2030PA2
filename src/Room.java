@@ -25,6 +25,11 @@ class Room{
         return new Room(this.name, gameOArrayList.stream().map(x->x.tickk()).collect(Collectors.toList()));
     }
     public String toString(){
-        return gameOArrayList.toString();
+        String name = "@"+this.name;
+        String printObject = "";
+        for (GameO gameO:gameOArrayList){
+            printObject = printObject + "\n"+ gameO.toString();
+        }
+        return name + printObject;
     }
 }
