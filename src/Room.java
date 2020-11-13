@@ -28,9 +28,10 @@ class Room{
 
     Room (String name, List<GameO> gameOArrayList, GameO gameO,Room previousRoom){
         this.name = name;
-        gameOArrayList.add(gameO);
-        this.gameOArrayList = gameOArrayList;
-        gameOArrayList.remove(gameOArrayList.size()-1);
+        List<GameO> gameOList = new ArrayList<>();
+        gameOList.addAll(gameOArrayList);
+        gameOList.add(gameO);
+        this.gameOArrayList = gameOList;
         this.isSwordtaken = false;
         this.isTrolldead = false;
         this.previousRoom = previousRoom;
