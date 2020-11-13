@@ -15,7 +15,7 @@ class Room{
         this.gameOArrayList = new ArrayList<GameO>();
         this.isSwordtaken = false;
         this.isTrolldead = false;
-        this.previousRoom = null;
+        this.previousRoom = this;
     }
 
     Room (String name,List<GameO> gameOList,Room previousRoom){
@@ -26,13 +26,13 @@ class Room{
         this.previousRoom = previousRoom;
     }
 
-    Room (String name, List<GameO> gameOArrayList, GameO gameO,Room previousRoom){
+    Room (String name, List<GameO> gameOArrayList, GameO gameO, boolean isSwordtaken, Room previousRoom){
         this.name = name;
         List<GameO> gameOList = new ArrayList<>();
         gameOList.addAll(gameOArrayList);
         gameOList.add(gameO);
         this.gameOArrayList = gameOList;
-        this.isSwordtaken = false;
+        this.isSwordtaken = isSwordtaken;
         this.isTrolldead = false;
         this.previousRoom = previousRoom;
     }
@@ -94,7 +94,12 @@ class Room{
     }
 
     public Room add(GameO gameO){
-        return new Room(this.getName(), this.getGameOArrayList(), gameO, this.getPreviousRoom());
+        if(this.previousRoom == this){
+            this.gameOArrayList.add(gameO);
+            return this;
+        }
+        Room newRoom = new Room(this.getName(), this.getGameOArrayList(), gameO, this.isSwordtaken, this.getPreviousRoom());
+        return newRoom;
     }
 
     public Room add(List<GameO> gameOList){
@@ -113,6 +118,16 @@ class Room{
         }
         return new Room(this.name,listAfterDeleteTroll,this.isSwordtaken,true,this.getPreviousRoom());
     }
+    public Room deleteSword(){
+        List<GameO> listAfterDeleteSword = new ArrayList<>();
+        for (GameO gameO:this.gameOArrayList){
+            if(gameO instanceof Sword){
+            }else{
+                listAfterDeleteSword.add(gameO);
+            }
+        }
+        return new Room(this.name,listAfterDeleteSword,false,this.isTrolldead,this.getPreviousRoom());
+    }
 
     public Room tick(){
         return new Room(this.name, gameOArrayList.stream().map(x->x.tickk()).collect(Collectors.toList()),this.isSwordtaken,this.isTrolldead,this.getPreviousRoom());
@@ -128,7 +143,7 @@ class Room{
         Room roomCorrected = new Room(roomAfterApply.name,roomAfterApply.gameOArrayList,roomAfterApply.isSwordtaken,roomAfterApply.isTrolldead(),this);
         if(this.isSwordtaken()&&!roomCorrected.isSwordtaken){
             Room newRoom = new Room(roomAfterApply.getName()).add(new Sword()).add(roomAfterApply.getGameOArrayList());
-            Room returnRoom = new Room(newRoom.getName(),newRoom.gameOArrayList, true, false,this);
+            Room returnRoom = new Room(newRoom.getName(),newRoom.gameOArrayList, true, false,this.deleteSword());
             return returnRoom;
         }
         else{
@@ -140,7 +155,8 @@ class Room{
         Room previousRoomBeforeEdited = this.previousRoom;
         Room previousRoomAfterEdited = new Room(previousRoomBeforeEdited.name,previousRoomBeforeEdited.gameOArrayList,this.isSwordtaken(),previousRoomBeforeEdited.isTrolldead,previousRoomBeforeEdited.getPreviousRoom());
         if(previousRoomAfterEdited.isSwordtaken == true){
-            previousRoomAfterEdited.add(new Sword());
+            Room returnRoom = previousRoomAfterEdited.add(new Sword());
+            return returnRoom.tick();
         }
         return previousRoomAfterEdited.tick();
     }
