@@ -30,6 +30,7 @@ class Room{
         this.name = name;
         gameOArrayList.add(gameO);
         this.gameOArrayList = gameOArrayList;
+        gameOArrayList.remove(gameOArrayList.size()-1);
         this.isSwordtaken = false;
         this.isTrolldead = false;
         this.previousRoom = previousRoom;
@@ -92,7 +93,7 @@ class Room{
     }
 
     public Room add(GameO gameO){
-        return new Room(this.name, this.gameOArrayList,gameO, this.getPreviousRoom());
+        return new Room(this.getName(), this.getGameOArrayList(), gameO, this.getPreviousRoom());
     }
 
     public Room add(List<GameO> gameOList){
