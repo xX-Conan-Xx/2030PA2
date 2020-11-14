@@ -94,10 +94,6 @@ class Room{
     }
 
     public Room add(GameO gameO){
-        if(this.previousRoom == this){
-            this.gameOArrayList.add(gameO);
-            return this;
-        }
         Room newRoom = new Room(this.getName(), this.getGameOArrayList(), gameO, this.isSwordtaken, this.getPreviousRoom());
         return newRoom;
     }
@@ -152,6 +148,9 @@ class Room{
     }
 
     public Room back(){
+        if(this.previousRoom.name.equals(this.name)){
+            return new Room(this.getName(),this.getGameOArrayList(),this.previousRoom);
+        }
         Room previousRoomBeforeEdited = this.previousRoom;
         Room previousRoomAfterEdited = new Room(previousRoomBeforeEdited.name,previousRoomBeforeEdited.gameOArrayList,this.isSwordtaken(),previousRoomBeforeEdited.isTrolldead,previousRoomBeforeEdited.getPreviousRoom());
         if(previousRoomAfterEdited.isSwordtaken == true){

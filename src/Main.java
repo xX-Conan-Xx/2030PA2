@@ -45,10 +45,14 @@ public class Main {
         //Room r1 = new Room("foyer").add(new Candle());
         //Room r2 = r1.go(x -> new Room("dining").add(new Troll()));
         //Room r3 = r2.go(x -> new Room("library").add(new Sword()));
-        Room f = new Room("foyer");
-        f.back().add(new Candle());
+        //Room f = new Room("foyer");
+        //f.back().add(new Candle());
+        Room q = new Room("q");
+        Room r = q.back().add(new Candle());
+        Room s = q.add(new Candle()).go(x -> new Room("s")).back();
+        Room t = s.back();
         System.out.println(
-                f
+                t
                 //r1.go(x -> new Room("dining").add(new Troll())).tick().go(x -> new Room("library").add(new Sword())).tick().tick(takeSword).back().tick().tick(killTroll)
                 //r3.tick(takeSword).back().tick(killTroll).tick(dropSword).back()
                 //r3.tick(takeSword).back().tick(killTroll).tick(dropSword)
